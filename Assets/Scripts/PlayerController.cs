@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     public Camera mainCamera;
     private Vector3 camForward;
     private Vector3 camRight;
+    //private bool moverRepair = true;
+    public bool moverRepair = false;
     public int disparo = 1;
     // Start is called before the first frame update
     void Start()
@@ -40,11 +42,15 @@ public class PlayerController : MonoBehaviour
         // playerSpeed  invertir controles
         movePlayer = movePlayer * playerSpeed * disparo;
 
-        player.transform.LookAt(player.transform.position + movePlayer);
+        
+        if (moverRepair == false)
+        {
+            player.transform.LookAt(player.transform.position + movePlayer);
         //Gravedad
-        setGravity();
+            setGravity();
+            player.Move(movePlayer * Time.deltaTime);
+        }
 
-        player.Move(movePlayer * Time.deltaTime);
         //player.Move(new Vector3(horizontalMove,0,verticalMove) * playerSpeed * Time.deltaTime);
 
         Debug.Log(player.velocity.magnitude);
@@ -76,4 +82,8 @@ public class PlayerController : MonoBehaviour
             movePlayer.y = fallVelocity;
         }
     }
+    // public void movePlayerContainer(bool b)
+    // {
+    //     moverRepair = b;
+    // }
 }
